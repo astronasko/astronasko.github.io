@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+	<channel>
+		<title>Atanas K. Stefanov</title>
+		<description>Welcome to my humble webspace, where I share what problems trouble me in academic and non-academic settings.</description>
+		<link>https://astronasko.com/</link>
+		<item>
+			<title>A guided derivation of the Noether theorem</title>
+			<link>https://astronasko.com/blog/20230601/</link>
+			<guid isPermaLink="true">https://astronasko.com/blog/20230601/</guid>
+			<description>A guided derivation of the Noether theorem, slightly elaborated from the lecture notes of PHAS0065: Galaxy Dynamics, Formation and Evolution, University College London.</description>
+			<pubDate>Mon, 05 Jun 2023 23:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Generating Chess960 positions with a coin</title>
+			<link>https://astronasko.com/blog/20230901/</link>
+			<guid isPermaLink="true">https://astronasko.com/blog/20230901/</guid>
+			<description>I give a brief description of a method that uses 10 flips of a fair coin to generate a Chess960 position. It makes use of the Chess960 numbering scheme, explained in Wikipedia, and of the circumstance that $960=2^{10}-2^6$.</description>
+			<pubDate>Thu, 31 Aug 2023 23:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Tile cartograms (tilegrams) of baseline parameters in Bulgarian regions</title>
+			<link>https://astronasko.com/blog/20240826/</link>
+			<guid isPermaLink="true">https://astronasko.com/blog/20240826/</guid>
+			<description>I showcase somewhat accurate hex-tile cartograms for a few interesting statistical parameters across Bulgarian adiministrative regions.</description>
+			<pubDate>Sun, 25 Aug 2024 23:00:00 GMT</pubDate>
+		</item>
+	</channel>
+</rss>

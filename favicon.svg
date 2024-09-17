@@ -1,0 +1,13 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="SphereShade" cx="0.5" cy="0.5" r=".8" fx="0.35" fy="0.25">
+    <stop offset="0"  stop-opacity="0"  />
+    <stop offset=".3" stop-opacity="0.1"/>
+    <stop offset=".5" stop-opacity="0.3"/>
+    <stop offset=".9"  stop-opacity="1"  />
+  </radialGradient>
+</defs>
+
+<circle cx="200" cy="200" r="200" fill="#ffffff" opacity="1" />
+<circle cx="200" cy="200" r="200" fill="url(#SphereShade)" opacity="1" />
+</svg>

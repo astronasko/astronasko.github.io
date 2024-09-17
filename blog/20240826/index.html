@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" class="astro-BVZIHDZO">
+	<head>
+		<!-- Global Metadata --><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="generator" content="Astro v2.5.5">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://astronasko.com/blog/20240826/">
+
+<!-- Primary Meta Tags -->
+<title>Tile cartograms (tilegrams) of baseline parameters in Bulgarian regions</title>
+<meta name="title" content="Tile cartograms (tilegrams) of baseline parameters in Bulgarian regions">
+<meta name="description" content="I showcase somewhat accurate hex-tile cartograms for a few interesting statistical parameters across Bulgarian adiministrative regions.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://astronasko.com/blog/20240826/">
+<meta property="og:title" content="Tile cartograms (tilegrams) of baseline parameters in Bulgarian regions">
+<meta property="og:description" content="I showcase somewhat accurate hex-tile cartograms for a few interesting statistical parameters across Bulgarian adiministrative regions.">
+<meta property="og:image" content="https://astronasko.com/placeholder-social.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://astronasko.com/blog/20240826/">
+<meta property="twitter:title" content="Tile cartograms (tilegrams) of baseline parameters in Bulgarian regions">
+<meta property="twitter:description" content="I showcase somewhat accurate hex-tile cartograms for a few interesting statistical parameters across Bulgarian adiministrative regions.">
+<meta property="twitter:image" content="https://astronasko.com/placeholder-social.jpg">
+
+<!-- RSS -->
+<link rel="alternate" type="application/rss+xml" title="Tile cartograms (tilegrams) of baseline parameters in Bulgarian regions" href="/rss.xml">
+		
+		<!-- KaTeX -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css" integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ" crossorigin="anonymous">
+	<link rel="stylesheet" href="/_astro/_...slug_.63b57561.css" />
+<link rel="stylesheet" href="/_astro/_...slug_.26bc61b1.css" /></head>
+
+	<body class="astro-BVZIHDZO">
+		<header class="astro-3EF6KSR2">
+  <h1 class="astro-3EF6KSR2">
+    Atanas K. Stefanov
+  </h1>
+  <nav class="astro-3EF6KSR2">
+    <p class="astro-3EF6KSR2">
+      <a href="/" class="astro-3EF6KSR2 astro-EIMMU3LG">
+	~/
+</a>
+      <a href="/resume.pdf" class="astro-3EF6KSR2 astro-EIMMU3LG">
+	Résumé
+</a>
+      <a href="/work" class="astro-3EF6KSR2 astro-EIMMU3LG">
+	Work
+</a>
+      <a href="/blog" class="astro-3EF6KSR2 astro-EIMMU3LG">
+	Blog
+</a>
+    </p>
+  </nav>
+</header>
+		<main class="astro-BVZIHDZO">
+			<article class="astro-BVZIHDZO">
+				
+				<h1 class="title astro-BVZIHDZO">Tile cartograms (tilegrams) of baseline parameters in Bulgarian regions</h1>
+				<time datetime="2024-08-25T23:00:00.000Z">
+	26/08/2024
+</time>
+				
+				<hr class="astro-BVZIHDZO">
+				<section class="astro-BVZIHDZO">
+					
+	<p>I did not know about <a href="https://en.wikipedia.org/wiki/Cartogram">cartograms</a> until very recently.<label for="recently" class="margin-toggle sidenote-number"></label>
+<input type="checkbox" id="recently" class="margin-toggle">
+<span class="sidenote">
+Very briefly: cartograms are charts that area-scale real geographic objects to some positive quantity related to those objects (e.g. population or GDP). Cartograms can be thought of as pie charts that try to retain the shape of said objects.
+</span>
+They struck me for their simplicity and ease of interpretation relative to their pie-chart counterpats, which I have a strong prejudice against. I was particularly intrigued by <a href="https://en.wikipedia.org/wiki/Cartogram#Mosaic_cartograms">tile cartograms</a>, and the <a href="https://github.com/PitchInteractiveInc/tilegrams">implementation of Pitch Interactive Inc</a> impressed me quite a bit, so I began thinking if I can customise it to my liking. I was interested in generating similar tilegrams for Bulgarian regions (provinces). This led me to <a href="https://github.com/astronasko/tilegrams">clone</a> their repository and add Bulgarian geodata together with some datasources which I grabbed from the National Statistical Institute (NSI) in Bulgaria.<label for="grabbed" class="margin-toggle sidenote-number"></label>
+<input type="checkbox" id="grabbed" class="margin-toggle">
+<span class="sidenote">
+By “grabbed” I mean transcribed by my own hand. All errors due to this are my own; and this blogpost is not after perfect accuracy.
+</span></p>
+<p>The original implementation allows to set a certain resolution for the hexagonal tiles (hexes); we will denote it <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span></span>. Higher <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span></span> means more hexes, so the unit of <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span></span> must contain <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mtext>hex</mtext><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">\text{hex}^{1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8984em;"></span><span class="mord"><span class="mord text"><span class="mord">hex</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span>. I am, however, usually more interested in what is contained within a hex, which the inverse resolution <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">R^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span> alludes to. To illustrate this, we can generate the most basic case, where the hex-area of regions is just their geographic area. Let each hex symbolise <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>50</mn><mtext> </mtext><msup><mtext>km</mtext><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">50\,\text{km}^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8984em;"></span><span class="mord">50</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord text"><span class="mord">km</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>, i.e. <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo>=</mo><mn>50</mn><mtext> </mtext><msup><mtext>km</mtext><mn>2</mn></msup><mi mathvariant="normal">.</mi><msup><mtext>hex</mtext><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">R^{-1}=50\,\text{km}^2.\text{hex}^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8984em;"></span><span class="mord">50</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord text"><span class="mord">km</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord">.</span><span class="mord"><span class="mord text"><span class="mord">hex</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span>. This gives:<br><br>
+<img src="/img/tilegram/bulgariaarea50marked.svg"><br><br></p>
+<p>
+    <span class="marginnote">
+        Against <i>Blank Map of the Provinces of Bulgaria</i>,
+        <a href="https://commons.wikimedia.org/wiki/File:Bulgaria_Provinces_Map_Blank.png">Wikimedia</a>:
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Bulgaria_Provinces_Map_Blank.png">
+    </span>
+</p>
+<p>Or, if you prefer without region annotations:<br><br>
+<img src="/img/tilegram/bulgariaarea50.svg"><br><br></p>
+<p>Using a ten times lower resolution (<span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo>=</mo><mn>500</mn><mtext> </mtext><msup><mtext>km</mtext><mn>2</mn></msup><mi mathvariant="normal">.</mi><msup><mtext>hex</mtext><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">R^{-1}=500\,\text{km}^2.\text{hex}^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8984em;"></span><span class="mord">500</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord text"><span class="mord">km</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord">.</span><span class="mord"><span class="mord text"><span class="mord">hex</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span>) yields:<br><br>
+<img src="/img/tilegram/bulgariaarea500.svg"><br><br>
+Lower resolutions give more simplistic maps. A trade-off arises between clarity and geographical accuracy. While the algorithm scales regions, it also tries to preserve the shape of regions (and perhaps of the whole country). Therefore, a small amount of hexes must get (unfairly) exchanged between regions. Shape distortions should be more likely to take place at lower resolutions, or when a region is scaled very disproportionately relative to its geographical area.</p>
+<p>
+    <span class="marginnote">
+        Against the area tilegram:<br><br>
+        <img src="/img/tilegram/bulgariaarea50.svg"><br><br>
+        <a href="https://www.nsi.bg/bg/content/2975/%D0%BD%D0%B0%D1%81%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE-%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D0%B8-%D0%BE%D0%B1%D1%89%D0%B8%D0%BD%D0%B8-%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B6%D0%B8%D0%B2%D0%B5%D0%B5%D0%BD%D0%B5-%D0%B8-%D0%BF%D0%BE%D0%BB">
+        Population as of 31.12.2023. by district, municipality, place of residence and sex.</a> NSI, Bulgaria.
+    </span>
+</p>
+<p>Let us now demonstrate the true power of cartograms. Hexes will now represent the <b>total resident population in Bulgaria in 2023.</b> Setting <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo>=</mo><mn>1000</mn><mtext> </mtext><msup><mtext>hex</mtext><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">R^{-1}=1000\,\text{hex}^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8984em;"></span><span class="mord">1000</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord text"><span class="mord">hex</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span>:<br><br>
+<img src="/img/tilegram/bulgariapop1000.svg"><br><br>
+About a fifth of the Bulgarian population resides in Sofia-grad.<label for="sofia-grad" class="margin-toggle sidenote-number"></label>
+<input type="checkbox" id="sofia-grad" class="margin-toggle">
+<span class="sidenote">
+This is <i>София-град</i>, lit. “Sofia-city”. Sofia is the capital of Bulgaria, and has its own administrative region. Not to be confused with Sofia-oblast (<i>София-област</i>, lit. “Sofia-region”), which is meant to capture Sofia’s surroundings and satellite cities.
+</span>
+This region therefore becomes very inflated (pink blob in middle), at the expense of other regions that have not as many residents, which consequently shrink. Such regions are Vidin (top left; blue) and some southernmost provinces. This tilegram displays the disproportionality of the Bulgarian population in a very simple and accessible way — and it allows us to assign (albeit symbolically) a specific number of people for each tile (1000).</p>
+<p>
+    <span class="marginnote">
+        Against the area tilegram:<br><br>
+        <img src="/img/tilegram/bulgariaarea50.svg"><br><br>
+        <a href="https://www.nsi.bg/bg/content/2215/%D0%B1%D0%B2%D0%BF-%D1%80%D0%B5%D0%B3%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D0%BD%D0%BE-%D0%BD%D0%B8%D0%B2%D0%BE">
+        GDP and GVA by economic sectors and regions with data for 2022*.</a> NSI, Bulgaria.
+    </span>
+</p>
+<p>We can play this game with any physical quantity that could be otherwise represented as a pie chart among regions. For example, we can represent the <b>Bulgarian GDP in 2022,</b> <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo>=</mo><mn>1</mn><msup><mn>0</mn><mn>8</mn></msup><mtext> </mtext><mtext>BGN</mtext><mi mathvariant="normal">.</mi><msup><mtext>hex</mtext><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">R^{-1}=10^{8}\,\text{BGN}.\text{hex}^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8984em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">BGN</span></span><span class="mord">.</span><span class="mord"><span class="mord text"><span class="mord">hex</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span>:<br><br>
+<img src="/img/tilegram/bulgariagdp100.svg"><br><br>
+This tilegram is similar to the population-scaled one, but is even more Sofia-dominant — to the point where neighbouring, less prominent regions lose their continuity. The algorithm begins to struggle to scale regions appropriately and at the same time to preserve their shape.</p>
+<p>
+    <span class="marginnote">
+        Against the area tilegram:<br><br>
+        <img src="/img/tilegram/bulgariaarea50.svg"><br><br>
+        <a href="https://www.nsi.bg/bg/content/1978/%D0%B3%D0%BE%D0%B4%D0%B8%D1%88%D0%BD%D0%B8-%D0%B4%D0%B0%D0%BD%D0%BD%D0%B8">
+        Activity of accommodation establishments by statistical zones, statistical regions and districts in 2023¹.</a> NSI, Bulgaria.
+    </span>
+</p>
+<p>I finish this tilegram demonstration by showing three last charts without interpretation. <b>Revenue from overnight stays in 2023,</b> <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo>=</mo><mn>1</mn><msup><mn>0</mn><mn>6</mn></msup><mtext> </mtext><mtext>BGN</mtext><mi mathvariant="normal">.</mi><msup><mtext>hex</mtext><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">R^{-1}=10^{6}\,\text{BGN}.\text{hex}^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8984em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">BGN</span></span><span class="mord">.</span><span class="mord"><span class="mord text"><span class="mord">hex</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span>:<br><br>
+<img src="/img/tilegram/bulgariatourism1000000.svg"></p>
+<p>
+    <span class="marginnote">
+        Against the area tilegram:<br><br>
+        <img src="/img/tilegram/bulgariaarea50.svg"><br><br>
+        <a href="https://www.nsi.bg/bg/content/3742/%D0%BF%D1%80%D0%B5%D1%81%D1%82%D1%8A%D0%BF%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D0%BF%D0%BE-%D0%B8%D0%B7%D1%85%D0%BE%D0%B4-%D0%BD%D0%B0-%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D0%B0-%D0%BF%D0%BE-%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8-%D0%B7%D0%BE%D0%BD%D0%B8-%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8-%D1%80%D0%B0%D0%B9%D0%BE%D0%BD%D0%B8-%D0%B8-%D0%BF%D0%BE-%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D0%B8">
+        Crimes by case outcome in 2023 by statistical zones, statistical regions and districts¹.</a> NSI, Bulgaria.
+    </span>
+</p>
+<p><b>Crimes in 2023</b>, including suspended sentences, acquittals, terminations and discharges, <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo>=</mo><mn>30</mn><mtext> </mtext><msup><mtext>hex</mtext><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">R^{-1}=30\,\text{hex}^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8984em;"></span><span class="mord">30</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord text"><span class="mord">hex</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span>:<br><br>
+<img src="/img/tilegram/bulgariacrime30.svg"></p>
+<p>
+    <span class="marginnote">
+        Against the area tilegram:<br><br>
+        <img src="/img/tilegram/bulgariaarea50.svg"><br><br>
+        <a href="https://www.nsi.bg/bg/content/2566/%D0%B1%D0%B8%D1%82%D0%BE%D0%B2%D0%B8-%D0%BE%D1%82%D0%BF%D0%B0%D0%B4%D1%8A%D1%86%D0%B8-%D0%BF%D0%BE-%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8-%D1%80%D0%B0%D0%B9%D0%BE%D0%BD%D0%B8-%D0%B8-%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D0%B8">
+        Household waste by statistical regions and districts.</a> NSI, Bulgaria.
+    </span>
+</p>
+<p><b>Generated household waste in 2022,</b> <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo>=</mo><mn>5</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mn>3</mn></msup><mtext> </mtext><mtext>kg</mtext><mi mathvariant="normal">.</mi><msup><mtext>hex</mtext><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">R^{-1}=5\times 10^{3}\,\text{kg}.\text{hex}^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0929em;vertical-align:-0.1944em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">kg</span></span><span class="mord">.</span><span class="mord"><span class="mord text"><span class="mord">hex</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span>:<br><br>
+<img src="/img/tilegram/bulgariarubbish5.svg"></p>
+
+				</section>
+			</article>
+		</main>
+		<footer>
+  <section>
+    &copy; 2024 Built with
+    <a href="https://astro.build/"> Astro</a>, by Nasko.
+    <a href="/rss.xml">RSS</a>
+  </section>
+</footer>
+	</body></html>

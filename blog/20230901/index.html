@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" class="astro-BVZIHDZO">
+	<head>
+		<!-- Global Metadata --><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="generator" content="Astro v2.5.5">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://astronasko.com/blog/20230901/">
+
+<!-- Primary Meta Tags -->
+<title>Generating Chess960 positions with a coin</title>
+<meta name="title" content="Generating Chess960 positions with a coin">
+<meta name="description" content="I give a brief description of a method that uses 10 flips of a fair coin to generate a Chess960 position. It makes use of the Chess960 numbering scheme, explained in Wikipedia, and of the circumstance that $960=2^{10}-2^6$.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://astronasko.com/blog/20230901/">
+<meta property="og:title" content="Generating Chess960 positions with a coin">
+<meta property="og:description" content="I give a brief description of a method that uses 10 flips of a fair coin to generate a Chess960 position. It makes use of the Chess960 numbering scheme, explained in Wikipedia, and of the circumstance that $960=2^{10}-2^6$.">
+<meta property="og:image" content="https://astronasko.com/placeholder-social.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://astronasko.com/blog/20230901/">
+<meta property="twitter:title" content="Generating Chess960 positions with a coin">
+<meta property="twitter:description" content="I give a brief description of a method that uses 10 flips of a fair coin to generate a Chess960 position. It makes use of the Chess960 numbering scheme, explained in Wikipedia, and of the circumstance that $960=2^{10}-2^6$.">
+<meta property="twitter:image" content="https://astronasko.com/placeholder-social.jpg">
+
+<!-- RSS -->
+<link rel="alternate" type="application/rss+xml" title="Generating Chess960 positions with a coin" href="/rss.xml">
+		
+		<!-- KaTeX -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css" integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ" crossorigin="anonymous">
+	<link rel="stylesheet" href="/_astro/_...slug_.63b57561.css" />
+<link rel="stylesheet" href="/_astro/_...slug_.26bc61b1.css" /></head>
+
+	<body class="astro-BVZIHDZO">
+		<header class="astro-3EF6KSR2">
+  <h1 class="astro-3EF6KSR2">
+    Atanas K. Stefanov
+  </h1>
+  <nav class="astro-3EF6KSR2">
+    <p class="astro-3EF6KSR2">
+      <a href="/" class="astro-3EF6KSR2 astro-EIMMU3LG">
+	~/
+</a>
+      <a href="/resume.pdf" class="astro-3EF6KSR2 astro-EIMMU3LG">
+	Résumé
+</a>
+      <a href="/work" class="astro-3EF6KSR2 astro-EIMMU3LG">
+	Work
+</a>
+      <a href="/blog" class="astro-3EF6KSR2 astro-EIMMU3LG">
+	Blog
+</a>
+    </p>
+  </nav>
+</header>
+		<main class="astro-BVZIHDZO">
+			<article class="astro-BVZIHDZO">
+				
+				<h1 class="title astro-BVZIHDZO">Generating Chess960 positions with a coin</h1>
+				<time datetime="2023-08-31T21:00:00.000Z">
+	01/09/2023
+</time>
+				
+				<hr class="astro-BVZIHDZO">
+				<section class="astro-BVZIHDZO">
+					
+	<p>
+    <span class="marginnote">
+        <img src="/img/chess.jpg">
+    </span>
+    <span class="marginnote">
+        I sometimes take my friends to improvised swiss chess tournaments. I prefer to organise those in open spaces, outdoors. Most chess boards I cut and paint myself. Most pieces come from flea markets.
+    </span>
+</p>
+<p><a href="https://en.wikipedia.org/wiki/Fischer_random_chess">Chess960</a> (also
+Fischer random chess) is a chess variant that has been gaining
+popularity because it defies the opening theory in chess, and thus
+postpones the slow but sure death of the game. I am an avid chess player
+myself, and I have the luck of having most of my close friends somewhat
+invested in the game too. Our interest usually peaks during summer, but,
+having continuously to play each other, we soon get bored of each
+other’s play and we look for ways to spice the game a bit. Chess960
+works for us, but I have an issue with it — it relies on randomness, and
+generating a random position is not easy without an electronic device.
+You can certainly use a phone, but what fun do you find in that?</p>
+<p>I had a quick look-up of ways to manually generate a starting Chess960
+position. Some guides involve using a suite of polyhedron dice, i.e.
+d4 + d6 + d8. This necessitates somewhat niche equipment that you cannot
+rely on having if you feel the sudden rush to play a quick game. Some
+realised that, and provided with a
+<a href="http://www.chessvariants.org/diffsetup.dir/fischer-random-setup.html">guide to generate a position using a standard die (d6) only</a>.
+This, however, requires re-rolls in the cases where you need to emulate
+dice of lower order (e.g. d4). Consider the act of placing a Bishop on
+the board. Each Bishop can go on 4 squares only, so the standard-die
+guide instructs you to roll again if you score 5 or 6. This is
+inefficient — by my naïve estimate, you should lose at least a third of
+your time rolling a die in this case.</p>
+<p>My problem came down to coming up with a more efficient method to
+generate a random number. It came to my attention that <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>960</mn><mo>=</mo><msup><mn>2</mn><mn>10</mn></msup><mo>−</mo><msup><mn>2</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">960=2^{10}-2^6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">960</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></span>,
+which steered me towards the prospect of using a coin instead. Coins are
+common, and you one easily generate a number between <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span></span> and <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1023</mn></mrow><annotation encoding="application/x-tex">1023</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1023</span></span></span></span></span> with
+ten flips. The binary representation of <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>960</mn></mrow><annotation encoding="application/x-tex">960</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">960</span></span></span></span></span> is very conveniently
+<span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>111100000</mn><msub><mn>0</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">1111000000_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">111100000</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>,  meaning that we would have to re-flip
+only if we get heads in the first four flips.<label for="heads" class="margin-toggle sidenote-number"></label>
+<input type="checkbox" id="heads" class="margin-toggle">
+<span class="sidenote">
+Or tails, depending on your system. I use heads for ones.
+</span>
+What follows is a brief description of a method that uses 10 flips
+of a fair coin to generate a Chess960 position. It makes use of the
+Chess960 numbering scheme, <a href="https://en.wikipedia.org/wiki/Fischer_random_chess_numbering_scheme">explained in Wikipedia</a>,
+and of the circumstance that <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>960</mn><mo>=</mo><msup><mn>2</mn><mn>10</mn></msup><mo>−</mo><msup><mn>2</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">960=2^{10}-2^6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">960</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></span>. All positions are
+equiprobable as long as the coin is fair. I give an example with an
+arbitrary position that I refer back to in each step.</p>
+<hr>
+<ol>
+<li>Flip a coin 10 times and note the outcomes. Start over if your first 4 flips are heads.
+<label for="over" class="margin-toggle">❦</label><input type="checkbox" id="over" class="margin-toggle">
+<span class="marginnote">
+ heads heads tails tails tails tails heads tails tails heads
+</span></li>
+</ol>
+
+<ol start="2">
+<li>Use the result to retrieve a number <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span></span> in its binary representation. Heads are ones. The first flip is the most significant digit.
+<label for="digit" class="margin-toggle">❦</label><input type="checkbox" id="digit" class="margin-toggle">
+<span class="marginnote">
+ 1100001001<sub>2</sub>, equivalently 777
+</span></li>
+</ol>
+
+<ol start="3">
+<li>Orient the board as seen by White. Prepare to place White’s pieces.</li>
+</ol>
+
+<ol start="4">
+<li>Divide <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span></span> by 4, giving quotient <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span></span> and remainder <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span></span></span></span></span>. <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span></span></span></span></span> determines the square of the light-squared Bishop in reading order.
+<label for="lightbish" class="margin-toggle">❦</label><input type="checkbox" id="lightbish" class="margin-toggle">
+<span class="marginnote">
+ quotient 194, remainder 1<br>
+ bishop on second empty white square (d1)
+</span></li>
+</ol>
+
+<ol start="5">
+<li>Divide <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span></span> by 4, giving quotient <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span></span> and remainder <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi></mrow><annotation encoding="application/x-tex">E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span></span></span></span></span>. <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi></mrow><annotation encoding="application/x-tex">E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span></span></span></span></span> determines the square of the dark-squared Bishop in reading order.
+<label for="darkbish" class="margin-toggle">❦</label><input type="checkbox" id="darkbish" class="margin-toggle">
+<span class="marginnote">
+ quotient 48, remainder 2<br>
+ bishop on third empty dark square (e1)
+</span></li>
+</ol>
+
+<ol start="6">
+<li>Divide <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span></span> by 6, giving quotient <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span></span> and remainder <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span></span>. <span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span></span> determines the Queen’s square in reading order.
+<label for="queen" class="margin-toggle">❦</label><input type="checkbox" id="queen" class="margin-toggle">
+<span class="marginnote">
+ quotient 8, remainder 0<br>
+ queen on first empty square (a1)
+</span></li>
+</ol>
+
+<ol start="7">
+<li><span class="math math-inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span></span> determines the Knights’ position on remaining squares, according to this scheme:
+<label for="knights1" class="margin-toggle">❦</label><input type="checkbox" id="knights1" class="margin-toggle"><span class="marginnote">
+8<br>
+knights on third and fifth empty squares (f1 &#x26; h1)
+</span><label for="knights2" class="margin-toggle">❧</label><input type="checkbox" id="knights2" class="margin-toggle"><span class="marginnote">
+<br>
+This table is simply the list of permutations of the set
+♘♘---, lexicographically ordered by {♘, -}.
+</span><table style="text-align: center"></table>
+
+<table style="text-align: center"><tbody>
+  <tr>
+    <td>0</td>
+    <td>♘</td>
+    <td>♘</td>
+    <td>-</td>
+    <td>-</td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>♘</td>
+    <td>-</td>
+    <td>♘</td>
+    <td>-</td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>♘</td>
+    <td>-</td>
+    <td>-</td>
+    <td>♘</td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>♘</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>♘ </td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>-</td>
+    <td>♘</td>
+    <td>♘</td>
+    <td>-</td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>-</td>
+    <td>♘</td>
+    <td>-</td>
+    <td>♘</td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>-</td>
+    <td>♘</td>
+    <td>-</td>
+    <td>-</td>
+    <td>♘ </td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td>-</td>
+    <td>-</td>
+    <td>♘</td>
+    <td>♘</td>
+    <td>- </td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>-</td>
+    <td>-</td>
+    <td>♘</td>
+    <td>-</td>
+    <td>♘ </td>
+  </tr>
+  <tr>
+    <td>9</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>♘</td>
+    <td>♘ </td>
+  </tr>
+</tbody>
+</table></li></ol>
+<ol start="8">
+<li>
+<p>Place the King on the second empty square in reading order.<label for="king" class="margin-toggle">❦</label><input type="checkbox" id="king" class="margin-toggle"><span class="marginnote">
+king on second empty square (c1)</span></p>
+
+</li>
+<li>
+<p>Place Rooks on remaining squares.<label for="rooks" class="margin-toggle">❦</label><input type="checkbox" id="rooks" class="margin-toggle"><span class="marginnote">
+rooks on remaining squares (b1 &#x26; g1)</span></p>
+
+</li>
+<li>
+<p>Mirror the set-up for Black as you would in ordinary chess (e.g. King faces King).<label for="black" class="margin-toggle">❦</label><input type="checkbox" id="black" class="margin-toggle"><span class="marginnote">
+<img src="/img/chess960_777.jpg"></span></p>
+
+</li>
+</ol>
+<!-- Forgive me, Father, for I have sinned -->
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+				</section>
+			</article>
+		</main>
+		<footer>
+  <section>
+    &copy; 2024 Built with
+    <a href="https://astro.build/"> Astro</a>, by Nasko.
+    <a href="/rss.xml">RSS</a>
+  </section>
+</footer>
+	</body></html>
